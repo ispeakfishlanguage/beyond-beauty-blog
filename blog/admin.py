@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Comment, Post
+from .models import Comment, Post, Category
 from django_summernote.admin import SummernoteModelAdmin
+
 
 # Register your models here.
 @admin.register(Post)
@@ -23,3 +24,9 @@ class CommentAdmin(admin.ModelAdmin):
 
     def approve_comments(self, request, queryset):
         queryset.update(approved=True)
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
+    search_fields = ['name', 'description']

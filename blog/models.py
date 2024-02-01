@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 from django.utils.text import slugify
+from taggit.managers import TaggableManager
 
 
 STATUS = ((0, "Draft"), (1, "Publish"))
@@ -25,6 +26,9 @@ class Post(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     updated_on = models.DateTimeField(auto_now=True)
     image = CloudinaryField('image', blank=True, null=True)
+
+    # Add a tag manager
+    tags = TaggableManager()
 
     class Meta:
         ordering = ["-date_posted"]

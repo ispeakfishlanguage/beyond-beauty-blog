@@ -34,7 +34,7 @@ DEBUG = False
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
 ALLOWED_HOSTS = [
-    'beyond-beauty-6bb7e07463ae.herokuapp.com', 
+    'beyond-beauty-6bb7e07463ae.herokuapp.com',
     'localhost',
     '127.0.0.1',
     ]
@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'django_summernote',
     'crispy_forms',
+    'taggit',
     'blog',
 ]
 
