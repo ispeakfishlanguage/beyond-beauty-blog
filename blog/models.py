@@ -24,9 +24,18 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     status = models.IntegerField(choices=STATUS, default=0)
     updated_on = models.DateTimeField(auto_now=True)
+    image = CloudinaryField('image', blank=True, null=True)
+
+    class Meta:
+        ordering = ["-date_posted"]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        return f"{self.title} | Written by {self.author} on {self.date_posted}. Last updated on {self.updated_on}"
 
 
 class Comment(models.Model):
