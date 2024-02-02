@@ -18,6 +18,7 @@ django-allauth==0.59.0
 django-crispy-forms==1.14.0
 django-environ==0.11.2
 django-summernote==0.8.20.0
+django-taggit==5.0.1
 Flask==2.3.0
 Flask-SQLAlchemy==2.5.1
 google-auth==2.23.2

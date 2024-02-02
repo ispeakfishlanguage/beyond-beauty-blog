@@ -25,7 +25,11 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     status = models.IntegerField(choices=STATUS, default=0)
     updated_on = models.DateTimeField(auto_now=True)
-    image = CloudinaryField('image', blank=True, null=True)
+    featured_image = CloudinaryField('image', blank=True, null=True)
+    likes = models.ManyToManyField(User, related_name='post_likes')
+
+    def total_likes(self):
+        return self.likes.count()
 
     # Add a tag manager
     tags = TaggableManager()
