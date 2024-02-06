@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 from django.utils.text import slugify
 from taggit.managers import TaggableManager
+from django.urls import reverse
 
 
 STATUS = ((0, "Draft"), (1, "Publish"))
@@ -59,3 +60,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.user} on {self.post.title}'
+
+    def get_absolute_url(self):
+        return reverse('post_detail', kwargs={'slug': self.post.slug})
+
