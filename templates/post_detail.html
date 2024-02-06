@@ -85,6 +85,9 @@
                     </p>
                     <!-- The body of the comment goes before the | -->
                     {{ comment.content | linebreaks }}
+                    {% if comment.user == request.user %}
+                    <a class="btn btn-signup" href="{% url 'edit_comment' comment.id %}" role="button">Edit</a>
+                    {% endif %}
                 </div>
                 <!-- Our for loop ends here -->
                 {% endfor %}

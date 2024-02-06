@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic, View
 from django.http import HttpResponseRedirect
-from .models import Post
+from .models import Post, Comment
 from .forms import CommentForm
+from django.views.generic import UpdateView
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
-# Create your views here.
 class PostList(generic.ListView):
     model = Post
     queryset = Post.objects.filter(status=1).order_by('-date_posted')
@@ -79,3 +81,18 @@ class PostLike(View):
             post.likes.add(request.user)
 
         return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+
+
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'edit_comment.html'
+    pk_url_kwarg = 'comment_id'
+
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.user
+
+    def get_success_url(self):
+        comment = self.get_object()
+        return reverse_lazy('post_detail', kwargs={'slug': comment.post.slug})
