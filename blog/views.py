@@ -2,10 +2,15 @@ from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic, View
 from django.http import HttpResponseRedirect
 from .models import Post, Comment
-from .forms import CommentForm
+from .forms import CommentForm, PostForm
 from django.views.generic import UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class PostList(generic.ListView):
@@ -110,3 +115,27 @@ class CommentDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         comment = self.get_object()
         return reverse_lazy('post_detail', kwargs={'slug': comment.post.slug})
+
+
+class PostCreate(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'post_create.html'
+
+    def form_valid(self, form):
+        logger.debug(f"Action received: {self.request.POST.get('action')}")
+        post = form.save(commit=False)
+        # Assign the user as the author of the post
+        post.user = self.request.user
+        # Checking the value of the 'action' POST parameter
+        action = self.request.POST.get('action', 'Draft')  # Default to 'Draft' if 'action' is not present
+
+        if action == 'Publish':
+            post.status = 1  # Assuming 1 indicates a published post
+        else:  # Default to 'Draft'
+            post.status = 0  # Assuming 0 indicates a draft post
+
+        post.save()
+
+        # Redirecting to the post's detail view using 'get_absolute_url' method of the Post model
+        return HttpResponseRedirect(post.get_absolute_url())

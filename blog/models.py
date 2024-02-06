@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 from django.utils.text import slugify
-from taggit.managers import TaggableManager
 from django.urls import reverse
 
 
@@ -35,9 +34,6 @@ class Post(models.Model):
     def total_comments(self):
         return self.comments.count()
 
-    # Add a tag manager
-    tags = TaggableManager()
-
     class Meta:
         ordering = ["-date_posted"]
 
@@ -48,6 +44,9 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.title} | Written by {self.user} on {self.date_posted}. Last updated on {self.updated_on}"
+
+    def get_absolute_url(self):
+        return reverse('post_detail', kwargs={'slug': self.slug})
 
 
 class Comment(models.Model):
@@ -63,4 +62,3 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'slug': self.post.slug})
-
