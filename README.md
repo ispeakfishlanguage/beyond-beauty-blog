@@ -108,7 +108,7 @@ Beyond Beauty is designed as a fully functional blog platform, offering extensiv
 ### Features
 
 - **Navigation Menu:** A user-friendly interface for seamless site exploration.
-![navbar](docs/readme_images/navbar.)
+![navbar](docs/readme_images/navbar.png)
 
 The Navigation contains links for Home, Posts, Drafts, Log In, Log Out and has allauth options.
 
