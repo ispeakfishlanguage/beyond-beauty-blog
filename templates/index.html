@@ -15,7 +15,7 @@
                             <div class="image-container">
                                 {% if "placeholder" in post.featured_image.url %}
                                 <img class="card-img-top"
-                                    src="https://res.cloudinary.com/ispeakfishlang/image/upload/v1/media/django-summernote/2024-02-02/564685f6-f167-42d7-9312-7fbc0c91f6cb_hvxlau" alt:"thumbnail-post">
+                                    src="https://res.cloudinary.com/ispeakfishlang/image/upload/v1/media/django-summernote/2024-02-02/564685f6-f167-42d7-9312-7fbc0c91f6cb_hvxlau" alt="thumbnail-post">
                                 {% else %}
                                 <img class="card-img-top" src=" {{ post.featured_image.url }}" alt:"thumbnail-post">
                                 {% endif %}
@@ -27,7 +27,7 @@
                                 <h2 class="card-title">{{ post.title }}</h2>
                                 <p class="card-text">{{ post.content|truncatewords:30 }}</p>
                             </a>
-                            <hr />
+                            <hr>
                             <p class="card-text text-muted h6">{{ post.date_posted}} <i class="far fa-heart"></i>
                                 {{ post.total_likes }} <i class="far fa-comments"></i> {{ post.total_comments }}</p>
                         </div>
