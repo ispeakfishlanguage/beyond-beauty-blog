@@ -209,7 +209,7 @@ This was used for various icons throughout the site.
 - Balsamiq
 Wireframes were created using balsamiq from [https://balsamiq.com/wireframes/desktop/#].
 - Heroku
-The application is hosted on ![Heroku](https://beyond-beauty-6bb7e07463ae.herokuapp.com/)
+The application is hosted on [Heroku](https://beyond-beauty-6bb7e07463ae.herokuapp.com/)
 
 **Python Modules Used**
 
