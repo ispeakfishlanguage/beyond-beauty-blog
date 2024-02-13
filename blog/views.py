@@ -3,7 +3,7 @@ from django.views import generic, View
 from django.http import HttpResponseRedirect
 from .models import Post, Comment
 from .forms import CommentForm, PostForm
-from django.views.generic import UpdateView, DeleteView
+from django.views.generic import UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -158,11 +158,33 @@ class PostCreate(CreateView):
         action = self.request.POST.get('action', 'Draft')  # Default to 'Draft' if 'action' is not present
 
         if action == 'Publish':
-            post.status = 1  # Assuming 1 indicates a published post
+            post.status = 1  # 1 indicates a published post
         else:  # Default to 'Draft'
-            post.status = 0  # Assuming 0 indicates a draft post
+            post.status = 0  # 0 indicates a draft post
 
         post.save()
 
         # Redirecting to the post's detail view using 'get_absolute_url' method of the Post model
         return HttpResponseRedirect(post.get_absolute_url())
+
+
+class UserPostsList(LoginRequiredMixin, generic.ListView):
+    model = Post
+    template_name = 'user_posts.html'
+    paginate_by = 9
+
+    def get_queryset(self):
+        queryset = Post.objects.filter(user=self.request.user, status=1).order_by('-date_posted')
+        logger.debug(f"Queryset for user {self.request.user}: {queryset}")
+        return queryset
+
+
+class UserDraftsList(LoginRequiredMixin, generic.ListView):
+    model = Post
+    template_name = 'user_posts.html'
+    paginate_by = 9
+
+    def get_queryset(self):
+        queryset = Post.objects.filter(user=self.request.user, status=0).order_by('-date_posted')
+        logger.debug(f"Queryset for user {self.request.user}: {queryset}")
+        return queryset

@@ -14,7 +14,7 @@
             <div class="d-none d-md-block col-md-6 masthead-image">
                 <!-- The featured image URL goes in the src attribute -->
                 {% if "placeholder" in post.featured_image.url %}
-                <img src="https://codeinstitute.s3.amazonaws.com/fullstack/blog/default.jpg" width="100%">
+                <img src="https://res.cloudinary.com/ispeakfishlang/image/upload/v1/media/django-summernote/2024-02-02/564685f6-f167-42d7-9312-7fbc0c91f6cb_hvxlau" width="100%">
                 {% else %}
                 <img src=" {{ post.featured_image.url }}" width="100%">
                 {% endif %}
@@ -37,8 +37,14 @@
                     <div class="col-1">
                         <strong>
                             {% if user.is_authenticated and post.user == user %}
-                            <a href="{% url 'post-update' post.pk %}">Edit</a>
-                            <a href="{% url 'post-delete' post.pk %}">Delete</a>
+                            <div class="btn-toolbar d-inline" role="toolbar" aria-label="Toolbar with button groups">
+                                <div class="btn-group" role="group">
+                                    <a class="btn btn-signup" href="{% url 'post-update' post.id %}"
+                                        role="button">Edit</a>
+                                    <a class="btn btn-danger" href="{% url 'post-delete' post.id %}"
+                                        role="button">Delete</a>
+                                </div>
+                            </div>
                             {% endif %}
 
                             {% if user.is_authenticated %}
