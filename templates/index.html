@@ -15,9 +15,9 @@
                             <div class="image-container">
                                 {% if "placeholder" in post.featured_image.url %}
                                 <img class="card-img-top"
-                                    src="https://res.cloudinary.com/ispeakfishlang/image/upload/v1/media/django-summernote/2024-02-02/564685f6-f167-42d7-9312-7fbc0c91f6cb_hvxlau">
+                                    src="https://res.cloudinary.com/ispeakfishlang/image/upload/v1/media/django-summernote/2024-02-02/564685f6-f167-42d7-9312-7fbc0c91f6cb_hvxlau" alt:"thumbnail-post">
                                 {% else %}
-                                <img class="card-img-top" src=" {{ post.featured_image.url }}">
+                                <img class="card-img-top" src=" {{ post.featured_image.url }}" alt:"thumbnail-post">
                                 {% endif %}
                                 <div class="image-flash">
                                     <p class="author">Author: {{ post.user }}</p>
