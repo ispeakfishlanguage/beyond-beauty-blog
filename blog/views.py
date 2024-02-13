@@ -17,7 +17,7 @@ class PostList(generic.ListView):
     model = Post
     queryset = Post.objects.filter(status=1).order_by('-date_posted')
     template_name = 'index.html'
-    paginate_by = 10
+    paginate_by = 9
 
 
 class PostDetail(View):
@@ -86,6 +86,33 @@ class PostLike(View):
             post.likes.add(request.user)
 
         return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+
+
+class PostUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ['title', 'content', 'featured_image']
+    template_name = 'post_edit.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.user
+
+class PostDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'post_confirm_delete.html'
+    pk_url_kwarg = 'pk'
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.user  # Ensure only the post author can delete it
+
+    def get_success_url(self):
+        # Redirecting to the blog's home page after a post is deleted
+        return reverse_lazy('home')
 
 
 class CommentUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
